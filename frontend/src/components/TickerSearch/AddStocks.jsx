@@ -1,27 +1,18 @@
 /* eslint-disable react/no-children-prop */
-import { Box, InputGroup, Input, InputLeftAddon, Flex } from "@chakra-ui/react";
-import { useStockCountStore } from "../../state/state";
+import { Box, InputGroup, Input, InputLeftAddon } from "@chakra-ui/react";
 
 // eslint-disable-next-line react/prop-types
 const AddStocks = ({ stock, setStock }) => {
-  const stockCount = useStockCountStore((state) => state.stockCount);
-
-  let placeholder;
-
-  if (stockCount) {
-    placeholder = "enter another stock symbol";
-  } else {
-    placeholder = "add a stock to get started";
-  }
-
   return (
     <Box>
       <InputGroup size={["md", "md", "md", "lg"]}>
-        <InputLeftAddon children="$" />
+        <InputLeftAddon children="$" color="black" />
         <Input
-          placeholder={placeholder}
+          placeholder={"enter a ticker"}
           value={stock}
           onChange={(e) => setStock(e.target.value.toUpperCase())}
+          color="black"
+          focusBorderColor="black"
         />
       </InputGroup>
     </Box>
