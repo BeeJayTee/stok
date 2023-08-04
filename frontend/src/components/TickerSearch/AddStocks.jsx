@@ -8,8 +8,8 @@ const AddStocks = ({ stock, setStock, handleChange, handleSubmit }) => {
     handleChange();
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
       handleSubmit();
     }
   };
@@ -21,7 +21,7 @@ const AddStocks = ({ stock, setStock, handleChange, handleSubmit }) => {
         <Input
           placeholder={"enter a ticker"}
           value={stock}
-          onChange={(e) => handleLocalChange(e)}
+          onChange={handleLocalChange}
           color="black"
           focusBorderColor="black"
           onKeyDown={handleKeyDown}

@@ -1,7 +1,5 @@
 export const useStockSearch = () => {
   const stockSearch = async (symbol) => {
-    console.log("stock search for " + symbol);
-
     const url = `https://twelve-data1.p.rapidapi.com/symbol_search?symbol=${symbol}&outputsize=30&format=json`;
     const options = {
       method: "GET",

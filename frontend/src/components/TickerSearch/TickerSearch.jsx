@@ -4,6 +4,7 @@ import { useState } from "react";
 import Submit from "./Submit";
 import { useStockSearch } from "../../hooks/useStockSearch";
 import StockSelect from "./StockSelect";
+import Close from "./Close";
 
 const TickerSearch = () => {
   const [stock, setStock] = useState("");
@@ -17,7 +18,6 @@ const TickerSearch = () => {
   };
 
   const handleChange = () => {
-    console.log("handle change");
     setStockList([]);
   };
 
@@ -25,7 +25,7 @@ const TickerSearch = () => {
     <Box position={"relative"}>
       <Box w={"fit-content"} mx={"auto"}>
         <Flex
-          direction={["column", "row"]}
+          direction={[stockList.length === 0 ? "column" : "row", "row"]}
           gap={2}
           justify={"center"}
           align={"center"}
@@ -36,10 +36,18 @@ const TickerSearch = () => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
           />
-          <Submit handleSubmit={handleSubmit} stock={stock} />
+          {stockList.length === 0 ? (
+            <Submit handleSubmit={handleSubmit} stock={stock} />
+          ) : (
+            <Close setStock={setStock} setStockList={setStockList} />
+          )}
         </Flex>
       </Box>
-      <StockSelect stockList={stockList} />
+      <StockSelect
+        stockList={stockList}
+        setStockList={setStockList}
+        setStock={setStock}
+      />
     </Box>
   );
 };

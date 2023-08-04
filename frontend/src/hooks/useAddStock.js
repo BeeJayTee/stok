@@ -9,10 +9,18 @@ export const useAddStock = () => {
     const arr = localStorage.getItem("stocks")
       ? JSON.parse(localStorage.getItem("stocks"))
       : [];
-    arr.push({ symbol: symbol, country: country });
-    localStorage.setItem("stocks", JSON.stringify(arr));
+    if (
+      arr.find((item) => item.symbol === symbol && item.country === country)
+    ) {
+      setIsLoading(null);
+      return { result: "fail" };
+    } else {
+      arr.push({ symbol: symbol, country: country });
+      localStorage.setItem("stocks", JSON.stringify(arr));
 
-    setIsLoading(null);
+      setIsLoading(null);
+      return { result: "ok" };
+    }
   };
 
   return { addStock, isLoading, error };
