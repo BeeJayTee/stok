@@ -7,11 +7,18 @@ import StockSelect from "./StockSelect";
 
 const TickerSearch = () => {
   const [stock, setStock] = useState("");
+  const [stockList, setStockList] = useState([]);
 
   const { stockSearch } = useStockSearch();
 
-  const handleSubmit = () => {
-    stockSearch(stock);
+  const handleSubmit = async () => {
+    const stocks = await stockSearch(stock);
+    setStockList(stocks);
+  };
+
+  const handleChange = () => {
+    console.log("handle change");
+    setStockList([]);
   };
 
   return (
@@ -23,11 +30,16 @@ const TickerSearch = () => {
           justify={"center"}
           align={"center"}
         >
-          <AddStocks stock={stock} setStock={setStock} />
-          <Submit handleSubmit={handleSubmit} />
+          <AddStocks
+            stock={stock}
+            setStock={setStock}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+          <Submit handleSubmit={handleSubmit} stock={stock} />
         </Flex>
       </Box>
-      <StockSelect />
+      <StockSelect stockList={stockList} />
     </Box>
   );
 };

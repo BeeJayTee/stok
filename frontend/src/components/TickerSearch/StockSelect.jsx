@@ -6,18 +6,20 @@ const TickerItem = ({ ticker, type, companyName, exchange, border = null }) => {
 
   return (
     <Flex
-      gap={12}
+      justify={"space-between"}
       align={"center"}
       borderBottom={borderWidth}
       borderColor={"black"}
-      py={4}
+      py={2}
     >
       <Box cursor={"pointer"}>
         <Flex gap={2} mb={0} align={"center"}>
           <Text fontWeight={"bold"}>{ticker}</Text>
           <Text fontSize={"sm"}>{type}</Text>
         </Flex>
-        <Text fontSize={"sm"}>{companyName}</Text>
+        <Text fontSize={"xs"} maxW={"90%"} lineHeight={"100%"}>
+          {companyName}
+        </Text>
       </Box>
       <Box>
         <Text fontSize={"xs"}>{exchange}</Text>
@@ -26,11 +28,10 @@ const TickerItem = ({ ticker, type, companyName, exchange, border = null }) => {
   );
 };
 
-const StockSelect = () => {
+const StockSelect = ({ stockList }) => {
   return (
     <Box
       px={4}
-      py={4}
       w={"fit-content"}
       border={"1px"}
       borderColor={"blackAlpha.500"}
@@ -42,19 +43,18 @@ const StockSelect = () => {
       bg={"white"}
       zIndex={"10"}
       boxShadow={"md"}
+      display={stockList.length > 0 ? "inherit" : "none"}
     >
-      <TickerItem
-        ticker={"aapl"}
-        type={"equity"}
-        companyName={"Apple Inc."}
-        exchange={"NASDAQ"}
-      />
-      <TickerItem
-        ticker={"aapl"}
-        type={"equity"}
-        companyName={"Apple Inc."}
-        exchange={"NASDAQ"}
-      />
+      {stockList.map((item, i) => (
+        <TickerItem
+          key={i}
+          ticker={item.symbol}
+          type={item.instrument_type}
+          companyName={item.instrument_name}
+          exchange={item.exchange}
+          border={i === stockList.length - 1 ? true : null}
+        />
+      ))}
     </Box>
   );
 };

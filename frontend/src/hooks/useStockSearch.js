@@ -21,7 +21,8 @@ export const useStockSearch = () => {
           item.country.toLowerCase() === "canada"
         );
       });
-      console.log(finalArr.slice(0, 7));
+      const stockList = finalArr.slice(0, 5);
+      return stockList;
     } catch (error) {
       console.error(error);
     }

@@ -1,8 +1,19 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-children-prop */
 import { Box, InputGroup, Input, InputLeftAddon } from "@chakra-ui/react";
 
-// eslint-disable-next-line react/prop-types
-const AddStocks = ({ stock, setStock }) => {
+const AddStocks = ({ stock, setStock, handleChange, handleSubmit }) => {
+  const handleLocalChange = (e) => {
+    setStock(e.target.value.toUpperCase());
+    handleChange();
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   return (
     <Box>
       <InputGroup size={["md", "md", "md", "lg"]}>
@@ -10,9 +21,10 @@ const AddStocks = ({ stock, setStock }) => {
         <Input
           placeholder={"enter a ticker"}
           value={stock}
-          onChange={(e) => setStock(e.target.value.toUpperCase())}
+          onChange={(e) => handleLocalChange(e)}
           color="black"
           focusBorderColor="black"
+          onKeyDown={handleKeyDown}
         />
       </InputGroup>
     </Box>
