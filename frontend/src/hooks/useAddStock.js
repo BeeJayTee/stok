@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useStockStore } from "../state/store";
 
 export const useAddStock = () => {
   const [isLoading, setIsLoading] = useState(null);
-  const [error, setError] = useState(null);
+  const updateStocks = useStockStore((state) => state.updateStocks);
 
   const addStock = async (symbol, country) => {
     setIsLoading(true);
@@ -15,13 +16,15 @@ export const useAddStock = () => {
       setIsLoading(null);
       return { result: "fail" };
     } else {
-      arr.push({ symbol: symbol, country: country });
+      arr.push({ symbol: symbol, country: country, allocation: null });
       localStorage.setItem("stocks", JSON.stringify(arr));
+      updateStocks();
 
       setIsLoading(null);
+
       return { result: "ok" };
     }
   };
 
-  return { addStock, isLoading, error };
+  return { addStock, isLoading };
 };

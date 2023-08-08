@@ -12,7 +12,7 @@ const TickerItem = ({
   setStockList,
   setStock,
 }) => {
-  const { addStock, isLoading, error } = useAddStock();
+  const { addStock } = useAddStock();
 
   const borderWidth = !border ? "1px" : "";
 

@@ -23,7 +23,7 @@ const TickerSearch = () => {
 
   return (
     <Box position={"relative"}>
-      <Box w={"fit-content"} mx={"auto"}>
+      <Box w={"fit-content"}>
         <Flex
           direction={[stockList.length === 0 ? "column" : "row", "row"]}
           gap={2}
