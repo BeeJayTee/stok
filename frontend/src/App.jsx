@@ -16,7 +16,7 @@ function App() {
         <Flex
           direction={["column", "column", "row"]}
           justify={["center", "center", "space-around"]}
-          align={"center"}
+          align={"flex-start"}
           mt={8}
         >
           <TickerSearch />

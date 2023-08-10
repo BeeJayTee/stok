@@ -1,21 +1,20 @@
-import { Box } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import PortfolioItem from "./PortfolioItem";
 import { useStockStore } from "../../state/store";
+import { useState } from "react";
 
 const Portfolio = () => {
+  const [totalValue, setTotalValue] = useState(0);
+  const [cash, setCash] = useState(0);
+
   const stocks = useStockStore((state) => state.stocks);
-  // const deleteStock = useStockStore((state) => state.deleteStock);
-
-  // deleteStock("SPY");
-
-  // const stocks = JSON.parse(localStorage.getItem("stocks"));
 
   return (
-    <Box>
+    <Flex direction={"column"} rowGap={2}>
       {stocks.map((stock, index) => (
         <PortfolioItem key={index} stock={stock} />
       ))}
-    </Box>
+    </Flex>
   );
 };
 
