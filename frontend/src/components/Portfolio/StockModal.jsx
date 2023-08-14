@@ -14,7 +14,8 @@ import {
   EditablePreview,
   EditableInput,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUpdateStockData } from "../../hooks/useUpdateStockData";
 
 const StockModal = ({
   isOpen,
@@ -25,10 +26,15 @@ const StockModal = ({
   numberOfShares,
   setNumberOfShares,
 }) => {
-  const [localNumberOfShares, setLocalNumberOfShares] =
-    useState(numberOfShares);
-  const [localDesiredPercent, setLocalDesiredPercent] =
-    useState(desiredPercent);
+  const [localNumberOfShares, setLocalNumberOfShares] = useState(null);
+  const [localDesiredPercent, setLocalDesiredPercent] = useState(null);
+
+  const { updateShares, updatePercent } = useUpdateStockData();
+
+  useEffect(() => {
+    setLocalNumberOfShares(numberOfShares);
+    setLocalDesiredPercent(desiredPercent);
+  }, [numberOfShares, desiredPercent]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -37,8 +43,11 @@ const StockModal = ({
   };
 
   const handleSubmit = () => {
+    updatePercent(stockSymbol, localDesiredPercent);
     setDesiredPercent(localDesiredPercent);
+    updateShares(stockSymbol, localNumberOfShares);
     setNumberOfShares(localNumberOfShares);
+
     onClose();
   };
 

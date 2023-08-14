@@ -13,6 +13,7 @@ import { useStockStore } from "../../state/store";
 import { useGetStockData } from "../../hooks/useGetStockData";
 import { useEffect, useState } from "react";
 import StockModal from "./StockModal";
+import { useUpdateStockData } from "../../hooks/useUpdateStockData";
 
 const PortfolioItem = ({ stock }) => {
   const ticker =
@@ -46,12 +47,11 @@ const PortfolioItem = ({ stock }) => {
   const [bookValue, setBookValue] = useState(null);
 
   const deleteStock = useStockStore((state) => state.deleteStock);
-  const updateStockPrice = useStockStore((state) => state.updateStockPrice);
-  const updateStockShares = useStockStore((state) => state.updateStockShares);
+  const { updatePrice } = useUpdateStockData();
 
   useEffect(() => {
     setBookValue((numberOfShares * data).toFixed(2));
-    updateStockPrice(stock.symbol, data);
+    updatePrice(stock.symbol, data);
     const stockData = getStockData(stock.symbol);
     setDesiredPercent(stockData.percent);
     setNumberOfShares(stockData.shares);
@@ -59,9 +59,9 @@ const PortfolioItem = ({ stock }) => {
     numberOfShares,
     data,
     stock.symbol,
-    updateStockPrice,
-    updateStockShares,
+    updatePrice,
     getStockData,
+    desiredPercent,
   ]);
 
   const handleDelete = () => {
@@ -69,7 +69,6 @@ const PortfolioItem = ({ stock }) => {
   };
 
   const handleClick = () => {
-    console.log("clicked");
     onOpen();
   };
 
