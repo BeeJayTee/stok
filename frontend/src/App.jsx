@@ -15,9 +15,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Flex
           direction={["column", "column", "row"]}
-          justify={["center", "center", "space-around"]}
+          justify={["center", "center", "space-between"]}
           align={"flex-start"}
           mt={8}
+          px={(4, 4, 48)}
         >
           <TickerSearch />
           <Portfolio />

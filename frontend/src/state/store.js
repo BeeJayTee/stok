@@ -17,4 +17,22 @@ export const useStockStore = create((set) => ({
   updateTotal: (amount) => {
     set((state) => ({ total: (state.total = amount) }));
   },
+  updateStockPrice: (symbol, price) => {
+    const stocks = JSON.parse(localStorage.getItem("stocks"));
+    stocks.forEach((stock) => {
+      if (stock.symbol === symbol) {
+        stock.price = price;
+      }
+    });
+    localStorage.setItem("stocks", JSON.stringify(stocks));
+  },
+  updateStockShares: (symbol, shares) => {
+    const stocks = JSON.parse(localStorage.getItem("stocks"));
+    stocks.forEach((stock) => {
+      if (stock.symbol === symbol) {
+        stock.shares = shares;
+      }
+    });
+    localStorage.setItem("stocks", JSON.stringify(stocks));
+  },
 }));

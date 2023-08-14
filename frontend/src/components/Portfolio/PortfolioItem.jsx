@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useStockStore } from "../../state/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StockModal from "./StockModal";
 
 const PortfolioItem = ({ stock }) => {
@@ -41,11 +41,17 @@ const PortfolioItem = ({ stock }) => {
 
   const [desiredPercent, setDesiredPercent] = useState(20);
   const [numberOfShares, setNumberOfShares] = useState(10);
-  const [bookValue, setBookValue] = useState(
-    (numberOfShares * data).toFixed(2)
-  );
+  const [bookValue, setBookValue] = useState(null);
 
   const deleteStock = useStockStore((state) => state.deleteStock);
+  const updateStockPrice = useStockStore((state) => state.updateStockPrice);
+  const updateStockShares = useStockStore((state) => state.updateStockShares);
+
+  useEffect(() => {
+    setBookValue((numberOfShares * data).toFixed(2));
+    updateStockPrice(stock.symbol, data);
+    updateStockShares(stock.symbol, numberOfShares);
+  }, [numberOfShares, data, stock.symbol, updateStockPrice, updateStockShares]);
 
   const handleDelete = () => {
     deleteStock(stock.symbol);
@@ -62,8 +68,10 @@ const PortfolioItem = ({ stock }) => {
         isOpen={isOpen}
         onClose={onClose}
         desiredPercent={desiredPercent}
-        setDesiredPercen={setDesiredPercent}
+        setDesiredPercent={setDesiredPercent}
         stockSymbol={stock.symbol}
+        numberOfShares={numberOfShares}
+        setNumberOfShares={setNumberOfShares}
       />
       <Tooltip label="click to edit" aria-label="click to edit">
         <Flex

@@ -16,7 +16,7 @@ export const useAddStock = () => {
       setIsLoading(null);
       return { result: "fail" };
     } else {
-      arr.push({ symbol: symbol, country: country, shares: 0 });
+      arr.push({ symbol: symbol, country: country, shares: 0, price: 0 });
       localStorage.setItem("stocks", JSON.stringify(arr));
       updateStocks();
 
