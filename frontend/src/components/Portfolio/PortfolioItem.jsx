@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useStockStore } from "../../state/store";
+import { useGetStockData } from "../../hooks/useGetStockData";
 import { useEffect, useState } from "react";
 import StockModal from "./StockModal";
 
@@ -38,9 +39,10 @@ const PortfolioItem = ({ stock }) => {
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { getStockData } = useGetStockData();
 
-  const [desiredPercent, setDesiredPercent] = useState(20);
-  const [numberOfShares, setNumberOfShares] = useState(10);
+  const [desiredPercent, setDesiredPercent] = useState(null);
+  const [numberOfShares, setNumberOfShares] = useState(null);
   const [bookValue, setBookValue] = useState(null);
 
   const deleteStock = useStockStore((state) => state.deleteStock);
@@ -50,8 +52,17 @@ const PortfolioItem = ({ stock }) => {
   useEffect(() => {
     setBookValue((numberOfShares * data).toFixed(2));
     updateStockPrice(stock.symbol, data);
-    updateStockShares(stock.symbol, numberOfShares);
-  }, [numberOfShares, data, stock.symbol, updateStockPrice, updateStockShares]);
+    const stockData = getStockData(stock.symbol);
+    setDesiredPercent(stockData.percent);
+    setNumberOfShares(stockData.shares);
+  }, [
+    numberOfShares,
+    data,
+    stock.symbol,
+    updateStockPrice,
+    updateStockShares,
+    getStockData,
+  ]);
 
   const handleDelete = () => {
     deleteStock(stock.symbol);
