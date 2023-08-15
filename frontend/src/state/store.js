@@ -13,8 +13,4 @@ export const useStockStore = create((set) => ({
       set(() => ({ stocks: JSON.parse(localStorage.getItem("stocks")) }));
     }
   },
-  total: 0,
-  updateTotal: (amount) => {
-    set((state) => ({ total: (state.total = amount) }));
-  },
 }));
