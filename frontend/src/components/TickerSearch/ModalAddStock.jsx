@@ -10,9 +10,7 @@ import {
   ModalCloseButton,
   Button,
   Text,
-  Editable,
-  EditablePreview,
-  EditableInput,
+  Input,
 } from "@chakra-ui/react";
 import { useAddStock } from "../../hooks/useAddStock";
 import { useState } from "react";
@@ -28,6 +26,10 @@ const ModalAddStock = ({
   const [numberOfShares, setNumberOfShares] = useState(0);
   const [desiredPercent, setDesiredPercent] = useState(0);
   const { addStock } = useAddStock();
+
+  const handleClick = (e) => {
+    e.target.select();
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -60,31 +62,21 @@ const ModalAddStock = ({
           <ModalBody onKeyDown={handleKeyDown}>
             <Box>
               <Text fontSize={"xs"}>Number of Shares</Text>
-              <Editable
-                defaultValue="add number of shares"
+              <Input
+                placeholder="enter number of shares"
                 value={numberOfShares}
-                onChange={(e) => setNumberOfShares(e)}
-                borderBottom={"1px"}
-                borderColor={"black"}
-                px={4}
-              >
-                <EditablePreview />
-                <EditableInput />
-              </Editable>
+                onChange={(e) => setNumberOfShares(e.target.value)}
+                onClick={(e) => handleClick(e)}
+              />
             </Box>
             <Box mt={4}>
               <Text fontSize={"xs"}>desired %</Text>
-              <Editable
-                defaultValue="add %"
+              <Input
+                placeholder="add %"
                 value={desiredPercent}
-                onChange={(e) => setDesiredPercent(e)}
-                borderBottom={"1px"}
-                borderColor={"black"}
-                px={4}
-              >
-                <EditablePreview />
-                <EditableInput />
-              </Editable>
+                onChange={(e) => setDesiredPercent(e.target.value)}
+                onClick={(e) => handleClick(e)}
+              />
             </Box>
           </ModalBody>
 

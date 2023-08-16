@@ -10,9 +10,7 @@ import {
   ModalCloseButton,
   Button,
   Text,
-  Editable,
-  EditablePreview,
-  EditableInput,
+  Input,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useUpdateStockData } from "../../hooks/useUpdateStockData";
@@ -45,6 +43,10 @@ const StockModal = ({
     }
   };
 
+  const handleClick = (e) => {
+    e.target.select();
+  };
+
   const handleSubmit = () => {
     updatePercent(stockSymbol, localDesiredPercent);
     setDesiredPercent(localDesiredPercent);
@@ -65,29 +67,23 @@ const StockModal = ({
           <ModalBody onKeyDown={handleKeyDown}>
             <Box>
               <Text fontSize={"xs"}>Number of Shares</Text>
-              <Editable
+              <Input
+                placeholder="number of shares"
                 value={localNumberOfShares}
-                onChange={(e) => setLocalNumberOfShares(e)}
-                borderBottom={"1px"}
-                borderColor={"black"}
+                onChange={(e) => setLocalNumberOfShares(e.target.value)}
                 px={4}
-              >
-                <EditablePreview />
-                <EditableInput />
-              </Editable>
+                onClick={(e) => handleClick(e)}
+              />
             </Box>
             <Box mt={4}>
               <Text fontSize={"xs"}>desired %</Text>
-              <Editable
-                defaultValue={localDesiredPercent}
-                onChange={(e) => setLocalDesiredPercent(e)}
-                borderBottom={"1px"}
-                borderColor={"black"}
+              <Input
+                placeholder="number of shares"
+                value={localDesiredPercent}
+                onChange={(e) => setLocalDesiredPercent(e.target.value)}
                 px={4}
-              >
-                <EditablePreview />
-                <EditableInput />
-              </Editable>
+                onClick={(e) => handleClick(e)}
+              />
             </Box>
           </ModalBody>
 
