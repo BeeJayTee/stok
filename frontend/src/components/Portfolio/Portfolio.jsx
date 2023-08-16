@@ -1,12 +1,4 @@
-import {
-  Flex,
-  Box,
-  Heading,
-  Text,
-  Editable,
-  EditableInput,
-  EditablePreview,
-} from "@chakra-ui/react";
+import { Flex, Box, Heading, Text } from "@chakra-ui/react";
 import PortfolioItem from "./PortfolioItem";
 import { useStockStore } from "../../state/store";
 import { useGetTotal } from "../../hooks/useGetTotal";
@@ -14,56 +6,29 @@ import { useEffect, useState } from "react";
 import Cash from "./Cash";
 
 const Portfolio = () => {
-  const [cash, setCash] = useState(0);
+  const [total, setTotal] = useState(null);
   const stocks = useStockStore((state) => state.stocks);
-  const { total } = useGetTotal();
+  const { getTotal } = useGetTotal();
 
   useEffect(() => {
-    const localCash = localStorage.getItem("cash");
-    if (!localCash) {
-      localStorage.setItem("cash", 0);
-      setCash(0);
-    } else {
-      setCash(localStorage.getItem("cash"));
-    }
-  }, []);
-
-  const handleChange = (e) => {
-    setCash(e);
-    localStorage.setItem("cash", e);
-  };
-
-  const handleSubmit = (e) => {
-    if (e.length <= 0) {
-      setCash(0);
-      localStorage.setItem("cash", 0);
-    }
-  };
+    setTotal(getTotal());
+  }, [getTotal]);
 
   return (
     <Box>
-      <Flex justify="center" columnGap={8}>
-        <Flex align="center" gap={0} direction={"column"}>
-          <Text>total: </Text>
-          <Flex align={"center"}>
-            <Text fontSize={"xl"}>$</Text>
-            <Heading fontSize={"3xl"}>{total}</Heading>
-          </Flex>
-        </Flex>
-        <Flex align="center" gap={0} direction={"column"}>
-          <Text>cash: </Text>
-          <Editable
-            value={cash}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            fontSize={"3xl"}
-            fontWeight={"bold"}
-            color={"green.500"}
-            w={32}
-          >
-            <EditablePreview cursor={"pointer"} />
-            <EditableInput />
-          </Editable>
+      <Flex
+        mb={4}
+        direction={"column"}
+        justify={"center"}
+        align={"center"}
+        pr={12}
+      >
+        <Text fontSize={"xs"} color={"gray.500"}>
+          Total Value
+        </Text>
+        <Flex align={"center"}>
+          <Text fontSize={"xl"}>$</Text>
+          <Heading fontSize={"3xl"}>{total}</Heading>
         </Flex>
       </Flex>
       <Flex direction={"column"}>

@@ -1,10 +1,17 @@
 import { Box, Flex, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CashModal from "./CashModal";
+import { useCash } from "../../hooks/useCash";
 
 const Cash = () => {
-  const [cash, setCash] = useState(0);
+  const [cash, setCash] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { getCash } = useCash();
+
+  useEffect(() => {
+    setCash(getCash());
+  }, [getCash]);
 
   const handleClick = () => {
     onOpen();
@@ -31,7 +38,7 @@ const Cash = () => {
             color={"white"}
           >
             <Text>Cash</Text>
-            <Text fontWeight={"bold"}>$500.32</Text>
+            <Text fontWeight={"bold"}>${cash}</Text>
           </Flex>
         </Tooltip>
       </Flex>

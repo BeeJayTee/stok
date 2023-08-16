@@ -8,22 +8,26 @@ import {
   ModalBody,
   Box,
   Text,
-  Editable,
-  EditablePreview,
-  EditableInput,
+  Input,
   ModalFooter,
   Button,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useCash } from "../../hooks/useCash";
+import { useGetTotal } from "../../hooks/useGetTotal";
 
 const CashModal = ({ isOpen, onClose, setCash, cash }) => {
   const [localCash, setLocalCash] = useState();
   const { updateCash } = useCash();
+  const { getTotal } = useGetTotal();
 
   useEffect(() => {
     setLocalCash(cash);
   }, [cash]);
+
+  const handleClick = (e) => {
+    e.target.select();
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -34,6 +38,9 @@ const CashModal = ({ isOpen, onClose, setCash, cash }) => {
   const handleSubmit = () => {
     updateCash(localCash);
     setCash(localCash);
+    getTotal();
+
+    onClose();
   };
 
   return (
@@ -45,18 +52,14 @@ const CashModal = ({ isOpen, onClose, setCash, cash }) => {
           <ModalCloseButton />
           <ModalBody onKeyDown={handleKeyDown}>
             <Box>
-              <Text fontSize={"xs"}>Number of Shares</Text>
-              <Editable
-                value={localCash}
-                onChange={(e) => setLocalCash(e)}
-                borderBottom={"1px"}
-                borderColor={"black"}
-                px={4}
-              >
-                <EditablePreview />
-                <EditableInput />
-              </Editable>
+              <Text fontSize={"xs"}>Cash</Text>
             </Box>
+            <Input
+              placeholder="enter a number"
+              value={localCash}
+              onChange={(e) => setLocalCash(e.target.value)}
+              onClick={(e) => handleClick(e)}
+            />
           </ModalBody>
 
           <ModalFooter>
