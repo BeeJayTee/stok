@@ -14,11 +14,11 @@ function App() {
       <Header />
       <QueryClientProvider client={queryClient}>
         <Flex
-          direction={["column", "column", "row"]}
-          justify={["center", "center", "space-between"]}
-          align={"flex-start"}
+          direction={["column", "column", "column", "column", "row"]}
+          justify={["center", "center", "center", "center", "space-between"]}
+          align={["center", "center", "center", "center", "flex-start"]}
           mt={8}
-          px={(4, 4, 48)}
+          px={[4, 4, 48]}
         >
           <TickerSearch />
           <Portfolio />

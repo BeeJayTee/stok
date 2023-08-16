@@ -30,7 +30,7 @@ const Portfolio = () => {
   }, [getTotal, getPercentTotal]);
 
   return (
-    <Box>
+    <Box mt={[4, 4, 4, 4, 0]}>
       <Flex
         mb={4}
         direction={"column"}
