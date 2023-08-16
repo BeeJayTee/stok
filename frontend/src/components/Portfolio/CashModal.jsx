@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useCash } from "../../hooks/useCash";
 import { useGetTotal } from "../../hooks/useGetTotal";
 
-const CashModal = ({ isOpen, onClose, setCash, cash }) => {
+const CashModal = ({ isOpen, onClose, setCash, cash, setTotal }) => {
   const [localCash, setLocalCash] = useState();
   const { updateCash } = useCash();
   const { getTotal } = useGetTotal();
@@ -38,7 +38,7 @@ const CashModal = ({ isOpen, onClose, setCash, cash }) => {
   const handleSubmit = () => {
     updateCash(localCash);
     setCash(localCash);
-    getTotal();
+    setTotal(getTotal());
 
     onClose();
   };

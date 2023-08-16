@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Box, Flex, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import CashModal from "./CashModal";
 import { useCash } from "../../hooks/useCash";
 
-const Cash = () => {
+const Cash = ({ setTotal }) => {
   const [cash, setCash] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -23,6 +24,7 @@ const Cash = () => {
         onClose={onClose}
         cash={cash}
         setCash={setCash}
+        setTotal={setTotal}
       />
       <Flex px={4} columnGap={2} align={"center"}>
         <Tooltip label="click to edit" aria-label="click to edit">

@@ -8,10 +8,11 @@ import Cash from "./Cash";
 const Portfolio = () => {
   const [total, setTotal] = useState(null);
   const stocks = useStockStore((state) => state.stocks);
+
   const { getTotal } = useGetTotal();
 
   useEffect(() => {
-    setTotal(getTotal());
+    setTotal(getTotal().toFixed(2));
   }, [getTotal]);
 
   return (
@@ -32,10 +33,10 @@ const Portfolio = () => {
         </Flex>
       </Flex>
       <Flex direction={"column"}>
-        <Cash />
+        <Cash setTotal={setTotal} />
         <Box>
           {stocks.map((stock, index) => (
-            <PortfolioItem key={index} stock={stock} />
+            <PortfolioItem key={index} stock={stock} setTotal={setTotal} />
           ))}
         </Box>
       </Flex>

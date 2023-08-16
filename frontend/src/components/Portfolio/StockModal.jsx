@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useUpdateStockData } from "../../hooks/useUpdateStockData";
+import { useGetTotal } from "../../hooks/useGetTotal";
 
 const StockModal = ({
   isOpen,
@@ -25,11 +26,13 @@ const StockModal = ({
   stockSymbol,
   numberOfShares,
   setNumberOfShares,
+  setTotal,
 }) => {
   const [localNumberOfShares, setLocalNumberOfShares] = useState(null);
   const [localDesiredPercent, setLocalDesiredPercent] = useState(null);
 
   const { updateShares, updatePercent } = useUpdateStockData();
+  const { getTotal } = useGetTotal();
 
   useEffect(() => {
     setLocalNumberOfShares(numberOfShares);
@@ -47,6 +50,7 @@ const StockModal = ({
     setDesiredPercent(localDesiredPercent);
     updateShares(stockSymbol, localNumberOfShares);
     setNumberOfShares(localNumberOfShares);
+    setTotal(getTotal());
 
     onClose();
   };

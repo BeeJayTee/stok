@@ -13,9 +13,11 @@ import { useStockStore } from "../../state/store";
 import { useGetStockData } from "../../hooks/useGetStockData";
 import { useEffect, useState } from "react";
 import StockModal from "./StockModal";
+import StockAction from "./StockAction";
 import { useUpdateStockData } from "../../hooks/useUpdateStockData";
+import { useGetTotal } from "../../hooks/useGetTotal";
 
-const PortfolioItem = ({ stock }) => {
+const PortfolioItem = ({ stock, setTotal }) => {
   const ticker =
     stock.country === "canada" ? stock.symbol + ".TO" : stock.symbol;
 
@@ -43,11 +45,14 @@ const PortfolioItem = ({ stock }) => {
   const { getStockData } = useGetStockData();
 
   const [desiredPercent, setDesiredPercent] = useState(null);
+  const [currentPercent, setCurrentPercent] = useState(null);
   const [numberOfShares, setNumberOfShares] = useState(null);
   const [bookValue, setBookValue] = useState(null);
+  const [desiredValue, setDesiredValue] = useState(null);
 
   const deleteStock = useStockStore((state) => state.deleteStock);
   const { updatePrice } = useUpdateStockData();
+  const { getStockTotal } = useGetTotal();
 
   useEffect(() => {
     setBookValue((numberOfShares * data).toFixed(2));
@@ -55,6 +60,14 @@ const PortfolioItem = ({ stock }) => {
     const stockData = getStockData(stock.symbol);
     setDesiredPercent(stockData.percent);
     setNumberOfShares(stockData.shares);
+
+    // calculate current percent of portfolio
+    const percent = bookValue / getStockTotal();
+    setCurrentPercent((percent * 100).toFixed(2));
+
+    // calculate desired total value
+    const desired = (getStockTotal() * (desiredPercent / 100)).toFixed(2);
+    setDesiredValue(desired);
   }, [
     numberOfShares,
     data,
@@ -62,6 +75,8 @@ const PortfolioItem = ({ stock }) => {
     updatePrice,
     getStockData,
     desiredPercent,
+    getStockTotal,
+    bookValue,
   ]);
 
   const handleDelete = () => {
@@ -82,6 +97,7 @@ const PortfolioItem = ({ stock }) => {
         stockSymbol={stock.symbol}
         numberOfShares={numberOfShares}
         setNumberOfShares={setNumberOfShares}
+        setTotal={setTotal}
       />
       <Tooltip label="click to edit" aria-label="click to edit">
         <Flex
@@ -115,7 +131,7 @@ const PortfolioItem = ({ stock }) => {
                 current %
               </Text>
               <Text fontWeight={"bold"} fontSize={"xs"}>
-                20.15%
+                {currentPercent}%
               </Text>
             </Flex>
             {/* desired % */}
@@ -133,9 +149,10 @@ const PortfolioItem = ({ stock }) => {
                 desired $
               </Text>
               <Text fontWeight={"bold"} fontSize={"xs"}>
-                $1500
+                ${desiredValue}
               </Text>
             </Flex>
+            <StockAction bookValue={bookValue} desiredValue={desiredValue} />
           </Flex>
         </Flex>
       </Tooltip>
