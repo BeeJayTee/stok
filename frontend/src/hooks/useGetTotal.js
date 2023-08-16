@@ -14,6 +14,13 @@ export const useGetTotal = () => {
     }, 0);
     return total;
   };
+  const getPercentTotal = () => {
+    const stocks = JSON.parse(localStorage.getItem("stocks"));
+    const total = stocks.reduce((a, b) => {
+      return a + parseInt(b.percent);
+    }, 0);
+    return total;
+  };
 
-  return { getTotal, getStockTotal };
+  return { getTotal, getStockTotal, getPercentTotal };
 };

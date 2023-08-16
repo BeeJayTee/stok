@@ -1,4 +1,5 @@
-import { Flex, Box, Heading, Text } from "@chakra-ui/react";
+import { Flex, Box, Heading, Text, Tooltip } from "@chakra-ui/react";
+import { InfoIcon } from "@chakra-ui/icons";
 import PortfolioItem from "./PortfolioItem";
 import { useStockStore } from "../../state/store";
 import { useGetTotal } from "../../hooks/useGetTotal";
@@ -7,13 +8,26 @@ import Cash from "./Cash";
 
 const Portfolio = () => {
   const [total, setTotal] = useState(null);
+  const [percentFull, setPercentFull] = useState(true);
+  const [percentMessage, setPercentMessage] = useState("");
   const stocks = useStockStore((state) => state.stocks);
 
-  const { getTotal } = useGetTotal();
+  const { getTotal, getPercentTotal } = useGetTotal();
 
   useEffect(() => {
     setTotal(getTotal().toFixed(2));
-  }, [getTotal]);
+    const totalPercent = getPercentTotal();
+    if (totalPercent < 100) {
+      setPercentFull(false);
+      setPercentMessage("Your percent allocation is below 100!");
+    } else if (totalPercent > 100) {
+      setPercentFull(false);
+      setPercentMessage("Your percent allocation is above 100!");
+    } else {
+      setPercentFull(true);
+      setPercentMessage("");
+    }
+  }, [getTotal, getPercentTotal]);
 
   return (
     <Box>
@@ -30,6 +44,17 @@ const Portfolio = () => {
         <Flex align={"center"}>
           <Text fontSize={"xl"}>$</Text>
           <Heading fontSize={"3xl"}>{total}</Heading>
+          {!percentFull && (
+            <Box>
+              <Tooltip
+                label={percentMessage}
+                aria-label="click to edit"
+                background={"red.900"}
+              >
+                <InfoIcon color={"red.200"} />
+              </Tooltip>
+            </Box>
+          )}
         </Flex>
       </Flex>
       <Flex direction={"column"}>
